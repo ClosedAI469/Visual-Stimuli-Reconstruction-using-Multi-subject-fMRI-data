@@ -162,3 +162,10 @@ cython_debug/
 # Hobie: ignore /DS105 and /data directories at the root
 /DS105/
 /data/
+
+# DataProcessing: ignore /Output directory
+/Output/
+Output/
+
+# Mac specific
+.DS_Store
