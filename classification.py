@@ -11,7 +11,7 @@ from config import *
 import torch
 
 from data_processing import load_mat, ScanDataset
-from models import ScanMLP
+from models import MLP
 
 
 def train(Dataloader, model, loss_fn, optimizer, num_epochs=25):
