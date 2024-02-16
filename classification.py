@@ -4,8 +4,14 @@ Train a classifier that predicts images the subject is looking at with their fMR
 
 import copy
 import time
-from config import DEVICE
+
+from torch.utils.data import dataset, DataLoader
+
+from config import *
 import torch
+
+from data_processing import load_mat, ScanDataset
+from models import ScanMLP
 
 
 def train(Dataloader, model, loss_fn, optimizer, num_epochs=25):

@@ -36,3 +36,24 @@ class CLIP(nn.Module):
 
     def forward(self, x):
         pass
+
+
+class ScanMLP(nn.Module):
+
+    def __init__(self, input_dims, hidden_dims, output_dims):
+        super().__init__()
+        self.input_dims, self.hidden_dims, self.output_dims = (
+            input_dims,
+            hidden_dims,
+            output_dims,
+        )
+
+        self.network = nn.Sequential(
+            nn.Linear(input_dims[0], hidden_dims),
+            nn.ReLU(),
+            nn.Linear(hidden_dims, output_dims),
+            # nn.Softmax(dim=0),
+        )
+
+    def forward(self, x):
+        return self.network(x)
