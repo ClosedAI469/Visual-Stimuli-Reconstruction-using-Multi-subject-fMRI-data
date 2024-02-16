@@ -1,3 +1,4 @@
-import numpy as np
+from config import *
+from data_processing import scan_dataset
 
-a = np.zeros((3, 4))
+ds = scan_dataset(ROI_PATH_2_MAT).with_format("torch", device=DEVICE)

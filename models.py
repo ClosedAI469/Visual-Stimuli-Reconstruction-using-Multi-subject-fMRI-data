@@ -49,10 +49,11 @@ class ScanMLP(nn.Module):
         )
 
         self.network = nn.Sequential(
-            nn.Linear(input_dims[0], hidden_dims),
-            nn.ReLU(),
+            nn.Linear(input_dims, hidden_dims),
+            # nn.ReLU(),
+            nn.Softmax(dim=0),
             nn.Linear(hidden_dims, output_dims),
-            # nn.Softmax(dim=0),
+            nn.Softmax(dim=0),
         )
 
     def forward(self, x):
