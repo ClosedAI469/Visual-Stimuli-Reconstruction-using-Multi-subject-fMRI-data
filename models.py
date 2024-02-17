@@ -50,13 +50,13 @@ class MLP(nn.Module):
 
         dims = (input_dim, *hidden_dims, output_dim)
 
-        activation = nn.Softmax()
+        activation = nn.ReLU()
 
         linear_layers = []
 
         for layer_input_dim, layer_output_dim in zip(dims, dims[1:]):
             linear_layers.append(nn.Linear(layer_input_dim, layer_output_dim))
-            linear_layers.append(activation.Softmax())
+            linear_layers.append(activation)
 
         self.model = nn.Sequential(*linear_layers)
 
