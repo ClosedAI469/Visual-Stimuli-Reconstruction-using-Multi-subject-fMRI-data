@@ -7,16 +7,15 @@ import scipy.io as sio
 from datasets import Dataset
 
 
-def scan_dataset(path: str):
+def scan_dataset(mat: dict):
     """
     Load the mat file from the path and return a Dataset object.
 
-    :param path: Path to the mat file
-    :type path: str
+    :param mat: A dictionary containing the data from the mat file is
+    :type mat: dict
     :return: A Dataset object
     :rtype: Dataset
     """
-    mat = sio.loadmat(path, variable_names=("data", "mlabel"))
 
     return Dataset.from_dict({"features": mat["data"], "labels": mat["mlabel"]})
 
