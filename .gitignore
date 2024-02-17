@@ -163,15 +163,4 @@ cython_debug/
 /DS105/
 /data/
 
-# DataProcessing: ignore /Output directory
-/Output/
-Output/
 
-# Mac specific
-.DS_Store
-
-# Ignoring Data files
-DS105-objectviewing-ROI-std4mm-DLY-TempAlign.mat
-DS105-objectviewing-WB-std4mm-DLY-TempAlign.mat
-
-*.mat
