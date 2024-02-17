@@ -1,13 +1,16 @@
 """
-This file is used to process the data from the mat file.
-It stores various dataset classes, enabling different ways to structure the data for different encoding approaches.
+This file is used to process the data from https://drive.google.com/drive/u/1/folders/1SNdQ-jCSGvdP1N8iUoTomA2owBShQvWJ.
+
+It stores various data formatter methods,
+enabling different ways to structure the data for different encoding approaches.
+
+Before putting the data in one of the data formatters, load the .mat files to a dictionary first.
 """
 
-import scipy.io as sio
 from datasets import Dataset
 
 
-def scan_dataset(mat: dict):
+def dataset_scan(mat: dict):
     """
     Load the mat file from the path and return a Dataset object.
 

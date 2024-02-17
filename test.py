@@ -1,11 +1,11 @@
 from config import *
-from data_processing import scan_dataset
+from data_processing import dataset_scan
 import scipy.io as sio
 from models import MLP
 
 mat = sio.loadmat(ROI_PATH_2_MAT)
 
-ds = scan_dataset(mat).with_format("torch", device=DEVICE)
+ds = dataset_scan(mat).with_format("torch", device=DEVICE)
 
 sample = ds["features"][0:2]
 print(sample.shape)
