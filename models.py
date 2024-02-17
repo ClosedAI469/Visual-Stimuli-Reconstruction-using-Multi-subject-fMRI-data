@@ -53,12 +53,11 @@ class MLP(nn.Module):
         activation = nn.ReLU()
 
         linear_layers = []
-
         for layer_input_dim, layer_output_dim in zip(dims, dims[1:]):
             linear_layers.append(nn.Linear(layer_input_dim, layer_output_dim))
             linear_layers.append(activation)
 
-        self.model = nn.Sequential(*linear_layers)
+        self.model = nn.Sequential(*linear_layers[:-1])
 
     def forward(self, x):
         return self.model(x)

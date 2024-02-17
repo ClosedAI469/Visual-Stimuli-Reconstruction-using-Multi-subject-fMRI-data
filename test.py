@@ -4,8 +4,9 @@ from models import MLP
 
 ds = scan_dataset(ROI_PATH_2_MAT).with_format("torch", device=DEVICE)
 
-sample = ds["features"][0]
-shape = sample.shape[0]
+sample = ds["features"][0:2]
+print(sample.shape)
+shape = sample.shape[-1]
 print(shape)
 output_dim = 16384
 model = MLP(
