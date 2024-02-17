@@ -18,7 +18,7 @@ from datasets import Dataset
 
 def dataset_scan(mat: dict, device: torch.device = DEVICE):
     """
-    Format the data to a Dataset object in which very sample is a datapoint of fMRI scan.
+    Format the data to a Dataset object in which every sample is a datapoint of fMRI scan.
 
     :param device: The device to store the data on
     :type device: torch.device
