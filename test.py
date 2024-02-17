@@ -1,7 +1,9 @@
+# %%
 from config import *
 from data_processing import dataset_scan
 import scipy.io as sio
 from models import MLP
+
 
 mat = sio.loadmat(ROI_PATH_2_MAT)
 

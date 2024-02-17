@@ -1,5 +1,5 @@
 """
-This file is used to process the data from https://drive.google.com/drive/u/1/folders/1SNdQ-jCSGvdP1N8iUoTomA2owBShQvWJ.
+This file is used to process Tony's data from https://drive.google.com/drive/u/1/folders/1SNdQ-jCSGvdP1N8iUoTomA2owBShQvWJ.
 
 It stores various data formatter methods,
 enabling different ways to structure the data for different encoding approaches.
@@ -13,6 +13,8 @@ from datasets import Dataset
 def dataset_scan(mat: dict):
     """
     Load the mat file from the path and return a Dataset object.
+
+    Each sample represents a single fMRI scan.
 
     :param mat: A dictionary containing the data from the mat file is
     :type mat: dict
