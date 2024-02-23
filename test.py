@@ -86,5 +86,3 @@ print(output)
 # output = model(sample)
 
 # print(output)
-
-#checking the output shape
