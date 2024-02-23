@@ -14,6 +14,9 @@ import scipy.io as sio
 
 from models import MLP, LSTM
 
+#####################################
+# Test 1 - comment out other tests and run the file
+
 # %% test for dataset_scan
 mat = sio.loadmat(ROI_PATH_2_MAT)
 print(mat.keys())
@@ -38,43 +41,48 @@ print(model)
 output = model(sample)
 print(output)
 
+#####################################
 
-# %% test for dataset_stimulus
-mat = sio.loadmat(ROI_PATH_2_MAT)
+# Test 2 - comment out other tests and run the file
 
-print(mat.keys())
+# # %% test for dataset_stimulus
+# mat = sio.loadmat(ROI_PATH_2_MAT)
 
-ds = dataset_stimulus(mat, DEVICE)
+# print(mat.keys())
 
-sample = ds["features"][0:2]
-packing = ds["packing"][0:2].tolist()
+# ds = dataset_stimulus(mat, DEVICE)
 
-# %% test for dataset_run
-mat = sio.loadmat(ROI_PATH_2_MAT)
-print(mat.keys())
+# sample = ds["features"][0:2]
+# packing = ds["packing"][0:2].tolist()
 
-ds = dataset_run(mat, DEVICE)
+# # %% test for LSTM (with packed sequence)
+# hidden_size = 128
+# model = LSTM(N_VOXELS_ROI, hidden_size).to(DEVICE)
+# print(model)
 
-sample = ds["features"][0]
+# packed = model(sample, packing)
+# padded = pad_packed_sequence(packed[0], batch_first=True)
 
+# output = unpad_sequence(padded[0], padded[1], batch_first=True)
 
-# %% test for LSTM (with packed sequence)
-hidden_size = 128
-model = LSTM(N_VOXELS_ROI, hidden_size).to(DEVICE)
-print(model)
+# print(output)
 
-packed = model(sample, packing)
-padded = pad_packed_sequence(packed[0], batch_first=True)
+#####################################
+# Test 3 - comment out other tests and run the file
 
-output = unpad_sequence(padded[0], padded[1], batch_first=True)
+# # %% test for dataset_run
+# mat = sio.loadmat(ROI_PATH_2_MAT)
+# print(mat.keys())
 
-print(output)
+# ds = dataset_run(mat, DEVICE)
 
-# %% test for LSTM (with tensor)
-hidden_size = 128
-model = LSTM(N_VOXELS_ROI, hidden_size).to(DEVICE)
-print(model)
+# sample = ds["features"][0]
 
-output = model(sample)
+# # %% test for LSTM (with tensor)
+# hidden_size = 128
+# model = LSTM(N_VOXELS_ROI, hidden_size).to(DEVICE)
+# print(model)
 
-print(output)
+# output = model(sample)
+
+# print(output)
