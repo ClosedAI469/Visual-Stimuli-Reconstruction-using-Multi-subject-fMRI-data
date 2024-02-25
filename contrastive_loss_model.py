@@ -30,7 +30,8 @@ class Contrastive_loss_trainer():
 
     def train(self, epochs=1, batchsize=16):
         self.fMRI_encoder.train()
-        train_loader = DataLoader(self.trainSetset, batch_size=batchsize, shuffle=True)
+        train_loader = DataLoader(self.trainSet, batch_size=batchsize, shuffle=True)
+        print("train_loader = ", train_loader)
         test_loader = DataLoader(self.testSet, batch_size=batchsize)
         loss_fn = torch.nn.CrossEntropyLoss()
         optimizer = torch.optim.Adam(self.fMRI_encoder.parameters())
@@ -67,25 +68,25 @@ class Contrastive_loss_trainer():
             avg_loss = running_loss / j
             print(f"test loss: {avg_loss}")
 
-    def test(self, batchsize=16):
-        self.fMRI_encoder.eval()
-        test_loader = DataLoader(self.testSet, batch_size=batchsize)
-        loss_fn = torch.nn.CrossEntropyLoss()
-        running_loss = 0
-        j = 0
-        for j, data in enumerate(test_loader):
-            fMRIs, images = data
-            encoded_images = self.encode_image(images)
+    # def test(self, batchsize=16):
+    #     self.fMRI_encoder.eval()
+    #     test_loader = DataLoader(self.testSet, batch_size=batchsize)
+    #     loss_fn = torch.nn.CrossEntropyLoss()
+    #     running_loss = 0
+    #     j = 0
+    #     for j, data in enumerate(test_loader):
+    #         fMRIs, images = data
+    #         encoded_images = self.encode_image(images)
 
-            fMRI_encodings = self.fMRI_encoder(fMRIs)
-            cos_sim_matrix = self.NT_Xent_loss(fMRI_encodings, encoded_images)
+    #         fMRI_encodings = self.fMRI_encoder(fMRIs)
+    #         cos_sim_matrix = self.NT_Xent_loss(fMRI_encodings, encoded_images)
 
-            targets = torch.eye(batchsize)
-            loss = loss_fn(cos_sim_matrix, targets)
-            running_loss += loss
+    #         targets = torch.eye(batchsize)
+    #         loss = loss_fn(cos_sim_matrix, targets)
+    #         running_loss += loss
 
-        avg_loss = running_loss / j
-        print(f"test loss: {avg_loss}")
+    #     avg_loss = running_loss / j
+    #     print(f"test loss: {avg_loss}")
 
 
 
