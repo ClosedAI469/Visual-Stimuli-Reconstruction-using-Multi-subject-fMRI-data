@@ -11,6 +11,6 @@
     Use this code in command line: conda activate dream-heist
 
 # How to update the environment.yml?
-    Use this code in command line: conda env create -f environment.yml
+    Use this code in command line: conda env export | grep -v "^prefix: " > environment.yml
 
 # Note requirements.txt has been removed and replaced with environment.yml
