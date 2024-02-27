@@ -8,7 +8,7 @@
     Go to pytorch website and select the right version for your system and run the command in the command line.
 
 # How to activate the env?
-    Use this code in command line: conda activate pytorch
+    Use this code in command line: conda activate dream-heist
 
 # How to update the environment.yml?
     Use this code in command line: conda env create -f environment.yml
