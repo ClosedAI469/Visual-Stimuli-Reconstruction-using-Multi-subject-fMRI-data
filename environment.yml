@@ -96,7 +96,7 @@ dependencies:
   - python=3.11.7=hb885b13_0
   - python-dateutil=2.8.2=pyhd3eb1b0_0
   - python-xxhash=2.0.2=py311h80987f9_1
-  - pytorch=2.2.1=py3.11_0
+#  - pytorch=2.2.1=py3.11_0
   - pyyaml=6.0.1=py311h80987f9_0
   - re2=2022.04.01=hc377ac9_0
   - readline=8.2=h1a28f6b_0
@@ -111,8 +111,8 @@ dependencies:
   - sympy=1.12=py311hca03da5_0
   - tk=8.6.12=hb8d0fd4_0
   - tokenizers=0.15.1=py311h3dd52b7_0
-  - torchaudio=2.2.1=py311_cpu
-  - torchvision=0.17.1=py311_cpu
+#  - torchaudio=2.2.1=py311_cpu
+#  - torchvision=0.17.1=py311_cpu
   - tqdm=4.65.0=py311hb6e6a13_0
   - transformers=4.37.2=py311hca03da5_0
   - typing-extensions=4.9.0=py311hca03da5_1
