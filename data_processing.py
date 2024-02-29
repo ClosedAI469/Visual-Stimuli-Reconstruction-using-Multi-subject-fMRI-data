@@ -1,9 +1,3 @@
-import numpy as np
-from torch.nn.utils.rnn import pad_sequence
-from tqdm import tqdm
-
-from config import *
-
 """
 This file is used to process Tony's data from https://drive.google.com/drive/u/1/folders/1SNdQ-jCSGvdP1N8iUoTomA2owBShQvWJ.
 
@@ -14,6 +8,11 @@ Before putting the data in one of the data formatters, load the .mat files to a 
 """
 
 from datasets import Dataset
+import numpy as np
+from torch.nn.utils.rnn import pad_sequence
+from tqdm import tqdm
+
+from config import *
 
 
 def dataset_scan(mat: dict, device: torch.device = DEVICE):
