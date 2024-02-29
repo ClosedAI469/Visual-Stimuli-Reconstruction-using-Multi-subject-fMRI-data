@@ -2,7 +2,7 @@
 
 ## Python
 
-Install [`python3.11`](https://www.python.org/downloads/release/python-3117/) **if you do not have it installed**.
+Install [`python3.11`](https://www.python.org/downloads/release/python-3117/) _if you do not have it installed_.
 
 ## Dependency Management
 
