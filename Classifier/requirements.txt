@@ -1,0 +1,5 @@
+torch
+torchvision
+scipy
+numpy
+diffusers==0.11.1
