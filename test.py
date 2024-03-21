@@ -1,108 +1,75 @@
-"""
-The following snippet is a test for the functions and classes in data_processing.py and models.py.
-"""
+from models import GPUHA, DHA
 
-# %% imports
-from torch.nn.utils.rnn import pad_packed_sequence, unpad_sequence
+# from utils.easyfmri.Hyperalignment.DHA import DHA
+import time
+import numpy as np
 
-from config import ROI_PATH_2_MAT, DEVICE, N_VOXELS_ROI
-from data_processing import dataset_scan, dataset_stimulus, dataset_run
 import scipy.io as sio
 
-from models import MLP, LSTM
+mat = sio.loadmat("data/DS105-objectviewing-ROI-std4mm-DLY-TempAlign.mat")
 
-#####################################
-# Test 1 
+data = mat["data"]
+subject = mat["subject"]
 
-print("###### printing Test 1 ######")
-print()
+data = data.reshape([6, 1452, 2294])
 
-# %% test for dataset_scan
-mat = sio.loadmat(ROI_PATH_2_MAT)
-print(mat.keys())
+train_data = data[:-1]  # shape is (5, 1452, 2294)
+test_data = data[-1:]  # shape is (1, 1452, 2294), one subject left out for testing
+print(train_data.shape)
+print(test_data.shape)
 
-ds = dataset_scan(mat)
-print(ds)
-print(ds["features"])
-sample = ds["features"][0:2]
-print(sample)
-print(len(sample))
-print(sample.shape)
-shape = sample.shape[-1]
-print(shape)
+# %%
+# we can play around with the neural network shape and activation functions
 
-# %% test for MLP
-output_dim = 16384
-model = MLP(
-    shape,
-    output_dim,
-    int((shape + output_dim) * 0.75),
-    int((shape + output_dim) * 0.5),
-    int((shape + output_dim) * 0.25),
-).to(DEVICE)
-print(model)
-output = model(sample)
-print(output)
-print(output.shape)
+# net_shape defines the number of layers and the number of neurons in each layer of the neural network.
+# activation is the specific activation function being used in each layer of the neural network.
+# we can try different activation functions such as softmax, or tanh
 
-#####################################
+ha = GPUHA()
+tic = time.time()
+ha.train(train_data, verbose=False, gpu=False)
+toc = time.time() - tic
+ha.test(test_data)
+ha_transformed_train = ha.Xtrain
+ha_transformed_test = ha.Xtest
+ha_common_space = ha.G
 
-# Test 2 
+print("\nGPUHA, Shared Space Shape: ", np.shape(ha_common_space))
+print("GPUHA, Feature Shape: ", np.shape(ha_transformed_train))
+print("GPUHA, Error: ", np.mean(ha.Etrain), ", Runtime: ", toc)
+error = 0
+for yi in ha_transformed_test:
+    error += np.linalg.norm(ha_common_space - yi) ** 2
+print("GPUHA, Test Error:", error)
 
-print("###### printing Test 2 ######")
-print()
-# %% test for dataset_stimulus
-mat = sio.loadmat(ROI_PATH_2_MAT)
+# %%
+# we can play around with the neural network shape and activation functions
 
-print(mat.keys())
+dha = DHA([100, 50, 10], ["relu", "tanh", "softmax"], iteration=10, epoch=100)
 
-ds = dataset_stimulus(mat, DEVICE)
+# net_shape defines the number of layers and the number of neurons in each layer of the neural network.
+# activation is the specific activation function being used in each layer of the neural network.
+# we can try different activation functions such as softmax, or tanh
 
-sample = ds["features"][0:2]
-packing = ds["packing"][0:2].tolist()
+dha.train(train_data)
+dha.test(test_data)
+dha_transformed_train = dha.TrainFeatures
+dha_transformed_test = dha.TestFeatures
+dha_common_space = dha.Share
 
-# %% test for LSTM (with packed sequence)
-hidden_size = 128
-model = LSTM(N_VOXELS_ROI, hidden_size).to(DEVICE)
-print(model)
-
-packed = model(sample, packing)
-padded = pad_packed_sequence(packed[0], batch_first=True)
-
-output = unpad_sequence(padded[0], padded[1], batch_first=True)
-
-print("#######################")
-print(output)
-print("#######################")
-# print(output.shape)
-
-#####################################
-# Test 3
-
-print("###### printing Test 3 ######")
-print()
-# %% test for dataset_run
-mat = sio.loadmat(ROI_PATH_2_MAT)
-print(mat.keys())
-
-ds = dataset_run(mat, DEVICE)
-
-sample = ds["features"][0]
-
-# %% test for LSTM (with tensor)
-hidden_size = 128
-model = LSTM(N_VOXELS_ROI, hidden_size).to(DEVICE)
-print(model)
-
-output = model(sample)
-
-print(output)
-
-
-#####################################
-# Test 4
-
-print("###### printing Test 4 ######")
-print()
-
-# %% test for dataset_stimulus
+print(
+    "\nDHA, trace(G) = ",
+    np.trace(dha_common_space),
+    " G^TG= ",
+    np.trace(np.dot(np.transpose(dha_common_space), dha_common_space))
+    / np.shape(dha_common_space)[0],
+)
+print("DHA, Shared Space Shape: ", np.shape(dha_common_space))
+print("DHA, Features Shape: ", np.shape(dha_transformed_train))
+print("DHA, Loss vec: ", dha.ha_loss_vec)
+print("DHA, Error: ", dha.ha_loss, ", Runtime: ", dha.TrainRuntime)
+# The error is L2 norm
+error = 0
+for yi in dha_transformed_test:
+    error += np.linalg.norm(dha_common_space - yi) ** 2
+print("DHA, Test Error:", error)
